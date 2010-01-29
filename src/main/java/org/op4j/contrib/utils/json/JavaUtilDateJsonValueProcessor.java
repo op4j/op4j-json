@@ -19,7 +19,7 @@
  */
 package org.op4j.contrib.utils.json;
 
-import java.sql.Date;
+import java.util.Date;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -32,7 +32,7 @@ import net.sf.json.processors.JsonValueProcessor;
  * @author Soraya S&aacute;nchez
  *
  */
-public class JavaSqlDateJsonValueProcessor implements JsonValueProcessor {
+public class JavaUtilDateJsonValueProcessor implements JsonValueProcessor {
 	public Object processArrayValue(Object value, JsonConfig jsonConfig) {
 		JSONObject output = new JSONObject();
 		if (value != null) {
