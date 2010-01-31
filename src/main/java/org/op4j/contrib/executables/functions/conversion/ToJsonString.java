@@ -22,6 +22,7 @@ package org.op4j.contrib.executables.functions.conversion;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
@@ -53,7 +54,7 @@ public final class ToJsonString {
 	 * 
 	 * @return
 	 */
-	public static FromObject forObject() {
+	public static FromObject fromObject() {
         return TO_JSON_STRING;
     }
 	
@@ -64,7 +65,7 @@ public final class ToJsonString {
 	 * @param properties properties excluded from the input object
 	 * @return
 	 */
-	public static FromObject forObject(String[] propertiesExcluded) {
+	public static FromObject fromObject(String[] propertiesExcluded) {
         return new FromObject(propertiesExcluded);
     }
 	
@@ -74,7 +75,7 @@ public final class ToJsonString {
 	 * @param jsonConfig used to configure how the conversion will be done
 	 * @return
 	 */
-	public static FromObject forObject(JsonConfig jsonConfig) {
+	public static FromObject fromObject(JsonConfig jsonConfig) {
 		return new FromObject(jsonConfig);
     }
 		
@@ -83,42 +84,40 @@ public final class ToJsonString {
 	public static final class FromObject extends AbstractNullAsNullConverter<String, Object> {
 
 		private final JsonConfig jsonConfig;
-		private final String[] excluded;
-		private final boolean addDatesProcessors;
 		
 		public FromObject() {
 			this.jsonConfig = new JsonConfig();
-			this.excluded = null;
-			this.addDatesProcessors = true;
+			this.jsonConfig.registerJsonValueProcessor(Calendar.class, new CalendarJsonValueProcessor());
+			this.jsonConfig.registerJsonValueProcessor(GregorianCalendar.class, new CalendarJsonValueProcessor());
+    		this.jsonConfig.registerJsonValueProcessor(Date.class, new JavaUtilDateJsonValueProcessor());
+    		this.jsonConfig.registerJsonValueProcessor(Timestamp.class, new TimestampJsonValueProcessor());  
 		}
 				
 		public FromObject(String[] propertiesExcluded) {
-			super();		
+			super();	
+			
+			Validate.notNull(propertiesExcluded, "propertiesExcluede can't be null");
+			
 			this.jsonConfig = new JsonConfig();
-			this.excluded = propertiesExcluded;		
-			this.addDatesProcessors = true;
+			this.jsonConfig.registerJsonValueProcessor(Calendar.class, new CalendarJsonValueProcessor());
+			this.jsonConfig.registerJsonValueProcessor(GregorianCalendar.class, new CalendarJsonValueProcessor());
+    		this.jsonConfig.registerJsonValueProcessor(Date.class, new JavaUtilDateJsonValueProcessor());
+    		this.jsonConfig.registerJsonValueProcessor(Timestamp.class, new TimestampJsonValueProcessor());  
+    		
+			if (propertiesExcluded.length > 0) {
+	    		this.jsonConfig.setExcludes(propertiesExcluded);
+	    	}			
 		}
 		
 		public FromObject(JsonConfig jsonConfig) {
 			super();		
-			this.jsonConfig = jsonConfig;
-			this.excluded = null;		
-			this.addDatesProcessors = false;
+			this.jsonConfig = jsonConfig;	
 		}
 		
 		@Override
 		public String nullAsNullExecute(Object object, ExecCtx ctx)
 				throws Exception {
 			Validate.notNull(this.jsonConfig, "JsonConfig can't be null");
-			
-	    	if (this.excluded != null && this.excluded.length > 0) {
-	    		this.jsonConfig.setExcludes(this.excluded);
-	    	}
-	    	if (this.addDatesProcessors) {
-	    		this.jsonConfig.registerJsonValueProcessor(Calendar.class, new CalendarJsonValueProcessor());
-	    		this.jsonConfig.registerJsonValueProcessor(Date.class, new JavaUtilDateJsonValueProcessor());
-	    		this.jsonConfig.registerJsonValueProcessor(Timestamp.class, new TimestampJsonValueProcessor());    		
-	    	}
 	    	
 	    	return JSONSerializer.toJSON(object, 
 	    			this.jsonConfig).toString();
@@ -128,6 +127,5 @@ public final class ToJsonString {
 				Type<? extends Object> targetType) {
 			return Types.STRING;
 		}
-
 	}
 }
