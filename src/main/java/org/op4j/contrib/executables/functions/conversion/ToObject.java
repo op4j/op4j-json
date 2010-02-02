@@ -57,7 +57,7 @@ public final class ToObject {
 	 * @return
 	 */
 	public static <V extends Object> FromJsonString<V> fromJsonString(Class<V> beanClass, Map<String, 
-			Class> beanClassByAttribute) {
+			Class<?>> beanClassByAttribute) {
         return new FromJsonString<V>(beanClass, beanClassByAttribute);
     }
 	
@@ -92,10 +92,10 @@ public final class ToObject {
 
 		private final Class<K> beanClass;
 		private final JsonConfig jsonConfig;
-		private final Map<String, ? extends Class> map;
+		private final Map<String, Class<?>> map;
 		private final boolean setNewBeanInstanceStrategy;
 		
-		public FromJsonString(Class<K> beanClass, Map<String, ? extends Class> map) {
+		public FromJsonString(Class<K> beanClass, Map<String, Class<?>> map) {
 			super();
 			this.beanClass = beanClass;
 			this.map = map;
@@ -107,7 +107,7 @@ public final class ToObject {
 		public FromJsonString(Class<K> beanClass) {
 			super();
 			this.beanClass = beanClass;
-			this.map = new HashMap<String, Class>();
+			this.map = new HashMap<String, Class<?>>();
 			this.jsonConfig =  new JsonConfig();
 			this.jsonConfig.setRootClass(beanClass);
 			this.setNewBeanInstanceStrategy = true;
@@ -123,7 +123,7 @@ public final class ToObject {
 		public FromJsonString(Class<K> beanClass, JsonConfig jsonConfig) {
 			super();
 			this.beanClass = beanClass;
-			this.map = new HashMap<String, Class>();
+			this.map = new HashMap<String, Class<?>>();
 			this.jsonConfig = jsonConfig;
 			this.jsonConfig.setRootClass(beanClass);
 			this.setNewBeanInstanceStrategy = false;
