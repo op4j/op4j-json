@@ -1,0 +1,11 @@
+- ToJsonString ok
+- ToObject ok
+
+- ToObjectsCollection 
+	javadoc
+- ToObjectsList|Array ???
+
+- Tests toJsonString with jsonConfig
+- Tests fromJsonString with jsonConfig and maps
+- Have a look at how Date objects are being converted into json string
+(using DATE_PATTERN = "yyyyMMdd G HHmmss Z"; ??)
