@@ -10,7 +10,8 @@ public class AllTests {
 				"Test for org.op4j.contrib.operations.evaluation");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ToJsonStringTest.class);
-		suite.addTestSuite(FromJsonTest.class);
+		suite.addTestSuite(ToObjectTest.class);
+		suite.addTestSuite(ToObjectsCollectionTest.class);
 		//$JUnit-END$
 		return suite;
 	}
