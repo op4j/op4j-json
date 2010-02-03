@@ -12,7 +12,7 @@ public class ABean {
 	private int intProperty;
 	private Integer integerProperty;
 	private ArrayList<Long> longCollection = new ArrayList<Long>();
-	private ArrayList<Object> objectCollection = new ArrayList<Object>();
+	private ArrayList<Object> objectCollection = null;
 	private Calendar calendar;	
 	
 	public ABean() {
