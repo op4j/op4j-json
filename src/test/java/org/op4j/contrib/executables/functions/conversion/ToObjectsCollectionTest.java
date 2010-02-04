@@ -281,8 +281,51 @@ public class ToObjectsCollectionTest extends TestCase {
 					System.out.println("ObjectCollection has an object of class: "
 							+ obj1.getClass() + " - " + obj2.getClass());
 				}
-			}
+			}			
+		}    	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public final void test10() {
+		String jsonString = "[{id: 7, title: \"The Hound of the Baskervilles\"," +
+		"editorials: [{name: \"ed1\"},{name: \"ed2\"}]}, {id: 17, title: \"A Scandal in Bohemia\"," +
+		"editorials: [{name: \"ed1\"}]}]";
+	
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setRootClass(Book.class);
+		jsonConfig.setExcludes(new String[] {"published"});
+		jsonConfig.setClassMap(Op.onAll("editorials", Editorial.class,
+				"published", Calendar.class).buildMap().get());
+		
+		Collection<Book> result1 = Op.on(jsonString).exec(ToObjectsCollection.fromJsonObject(Book.class, jsonConfig)).get();
+
+		Collection<Book> result2 = JSONArray.toCollection((JSONArray) JSONSerializer.toJSON(jsonString, jsonConfig),
+				jsonConfig);
+
+		Iterator<Book> iterator = result2.iterator();
+		for (Book aBook : result1) {
+			Book aBook2 = iterator.next();
+			assertEquals(aBook.getId(), aBook2.getId());
+			assertEquals(aBook.getTitle(), aBook2.getTitle());
+			assertEquals(aBook.getSummary(), aBook2.getSummary());
+			assertEquals(aBook.getPublished(), aBook2.getPublished());
+			assertEquals(aBook.getEditorials().size(), aBook2.getEditorials().size());
 			
+			Iterator<Editorial> objIterator = aBook2.getEditorials().iterator();
+			System.out.println("Iterating object editorials");
+			for (Editorial editorial : aBook.getEditorials()) {
+				Editorial editorial2 = objIterator.next();
+				if (Editorial.class == editorial2.getClass()) {
+					System.out.println("editorials has an object of class Editorial");
+					assertEquals(editorial.getId(), editorial2.getId());
+					assertEquals(editorial.getName(), editorial2.getName());
+					assertEquals(editorial.getAddress(), editorial2.getAddress());
+				} else {
+					System.out.println("editorials has an object of class: "
+							+ editorial2.getClass() + " - " + editorial.getClass());
+				}
+			}			
 		}    	
 	}
 }
