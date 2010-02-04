@@ -14,6 +14,6 @@
 Notes:
 - When executing test9 from ToObjectsCollectionTest, ABean is
 created for every object inside objectCollection though properties
-do not match --> It does not fail...buy shows a warning message
-- Check how to configure how inner objects are being converted....use different types instead
-of always ABean as in test9
+do not match --> It does not fail...but shows a warning message
+if log enabled
+
