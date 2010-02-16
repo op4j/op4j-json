@@ -28,13 +28,11 @@ import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.Validate;
-import org.javaruntype.type.Type;
-import org.javaruntype.type.Types;
 import org.op4j.contrib.utils.json.CalendarJsonValueProcessor;
 import org.op4j.contrib.utils.json.JavaUtilDateJsonValueProcessor;
 import org.op4j.contrib.utils.json.TimestampJsonValueProcessor;
+import org.op4j.functions.AbstractNullAsNullFunc;
 import org.op4j.functions.ExecCtx;
-import org.op4j.functions.converters.AbstractNullAsNullConverter;
 
 
 /**
@@ -81,7 +79,7 @@ public final class ToJsonString {
 		
 	
 	
-	public static final class FromObject extends AbstractNullAsNullConverter<String, Object> {
+	public static final class FromObject extends AbstractNullAsNullFunc<String, Object> {
 
 		private final JsonConfig jsonConfig;
 		
@@ -123,9 +121,6 @@ public final class ToJsonString {
 	    			this.jsonConfig).toString();
 		}
 
-		public Type<? extends String> getResultType(
-				Type<? extends Object> targetType) {
-			return Types.STRING;
-		}
+		
 	}
 }

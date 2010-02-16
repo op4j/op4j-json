@@ -29,12 +29,10 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.JSONUtils;
 
 import org.apache.commons.lang.Validate;
-import org.javaruntype.type.Type;
-import org.javaruntype.type.Types;
 import org.op4j.contrib.utils.json.NewCalendarBeanInstanceStrategy;
-import org.op4j.exceptions.FunctionExecutionException;
+import org.op4j.exceptions.ExecutionException;
+import org.op4j.functions.AbstractNullAsNullFunc;
 import org.op4j.functions.ExecCtx;
-import org.op4j.functions.converters.AbstractNullAsNullConverter;
 
 
 /**
@@ -89,7 +87,7 @@ public final class ToObjectsCollection {
 	
 	
 
-	public static final class FromJsonString<K> extends AbstractNullAsNullConverter<Collection<K>, String> {
+	public static final class FromJsonString<K> extends AbstractNullAsNullFunc<Collection<K>, String> {
 
 		private final Class<K> beanClass;
 		private final JsonConfig jsonConfig;
@@ -145,13 +143,9 @@ public final class ToObjectsCollection {
 					return JSONArray.toCollection(jsArray, this.jsonConfig);              		
 				}				
 			} 
-			throw new FunctionExecutionException("Not valid json string to be converted into a Collection of objects: " +
+			throw new ExecutionException("Not valid json string to be converted into a Collection of objects: " +
 					object);  
 		}
 
-		public Type<? extends Collection<K>> getResultType(
-				Type<? extends String> targetType) {
-			return Types.collectionOf(Types.forClass(this.beanClass));
-		}	
 	}
 }
