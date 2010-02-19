@@ -31,7 +31,7 @@ import org.apache.commons.lang.Validate;
 import org.op4j.contrib.utils.json.CalendarJsonValueProcessor;
 import org.op4j.contrib.utils.json.JavaUtilDateJsonValueProcessor;
 import org.op4j.contrib.utils.json.TimestampJsonValueProcessor;
-import org.op4j.functions.AbstractNullAsNullFunc;
+import org.op4j.functions.AbstractNullAsNullFunction;
 import org.op4j.functions.ExecCtx;
 
 
@@ -79,7 +79,7 @@ public final class ToJsonString {
 		
 	
 	
-	public static final class FromObject extends AbstractNullAsNullFunc<String, Object> {
+	public static final class FromObject extends AbstractNullAsNullFunction<String, Object> {
 
 		private final JsonConfig jsonConfig;
 		

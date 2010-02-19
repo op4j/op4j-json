@@ -31,7 +31,7 @@ import net.sf.json.util.JSONUtils;
 import org.apache.commons.lang.Validate;
 import org.op4j.contrib.utils.json.NewCalendarBeanInstanceStrategy;
 import org.op4j.exceptions.ExecutionException;
-import org.op4j.functions.AbstractNullAsNullFunc;
+import org.op4j.functions.AbstractNullAsNullFunction;
 import org.op4j.functions.ExecCtx;
 
 
@@ -87,7 +87,7 @@ public final class ToObjectsCollection {
 	
 	
 
-	public static final class FromJsonString<K> extends AbstractNullAsNullFunc<Collection<K>, String> {
+	public static final class FromJsonString<K> extends AbstractNullAsNullFunction<Collection<K>, String> {
 
 		private final Class<K> beanClass;
 		private final JsonConfig jsonConfig;
