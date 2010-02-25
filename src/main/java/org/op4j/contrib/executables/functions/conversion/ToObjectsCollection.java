@@ -87,7 +87,7 @@ public final class ToObjectsCollection {
 	
 	
 
-	public static final class FromJsonString<K> extends AbstractNullAsNullFunction<Collection<K>, String> {
+	public static final class FromJsonString<K> extends AbstractNullAsNullFunction<String, Collection<K>> {
 
 		private final Class<K> beanClass;
 		private final JsonConfig jsonConfig;

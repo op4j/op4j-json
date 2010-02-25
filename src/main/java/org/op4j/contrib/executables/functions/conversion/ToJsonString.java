@@ -79,7 +79,7 @@ public final class ToJsonString {
 		
 	
 	
-	public static final class FromObject extends AbstractNullAsNullFunction<String, Object> {
+	public static final class FromObject extends AbstractNullAsNullFunction<Object, String> {
 
 		private final JsonConfig jsonConfig;
 		
